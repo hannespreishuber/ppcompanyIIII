@@ -21,7 +21,7 @@ Public Class WebForm1
         If (Request.IsAuthenticated = False) Then
 
             Request.GetOwinContext().Authentication.Challenge(
-                    New AuthenticationProperties With {.RedirectUri = "/"},
+                    New AuthenticationProperties With {.RedirectUri = "/webform1/demo"},
 OpenIdConnectAuthenticationDefaults.AuthenticationType)
 
         Else
@@ -58,16 +58,56 @@ OpenIdConnectAuthenticationDefaults.AuthenticationType)
 
         Dim ich = Await graphClient.Me.Request().GetAsync()
 
-        Dim Events = Await graphClient.Me.Events.Request().Select("subject,organizer,start,end").OrderBy("createdDateTime DESC").GetAsync()
+        '        Dim Events = Await graphClient.Me.Events.Request().Select("subject,organizer,start,end").OrderBy("createdDateTime DESC").GetAsync()
 
-        Dim res = Await graphClient.Planner.Plans.Item("Frczk8wfmEGL8xL0X1dfOZYADb1w").Tasks.Request.GetAsync
+        ' Dim res = Await graphClient.Planner.Plans.Item("Frczk8wfmEGL8xL0X1dfOZYADb1w").Tasks.Request.GetAsync
 
 
         Dim myTask = New PlannerTask()
         myTask.PlanId = "Frczk8wfmEGL8xL0X1dfOZYADb1w" ' //a valid planner id
         myTask.BucketId = "pu2t9gaDEk2DKo9N64nnDZYALL-B"
+        myTask.StartDateTime = Date.Now
+        myTask.DueDateTime = Date.Now.AddDays(4) 'Seminarstart
+        myTask.Title = "Max Müller ASP.NET BerlinII"
 
-        myTask.Title = "Ganz neue Aufgabe"
+        Dim d = New PlannerTaskDetails()
+        d.Description = "Linhk dazu https://nina.ppedv.de/ppcompany/adressen/ansprechpartneredit/37107/135534/ppedv"
+
+        'myTask.Details = d geht nicht
         Dim createdTask = Await graphClient.Planner.Tasks.Request().AddAsync(myTask)
+
+        'Dim t = graphClient.Planner.Tasks.Item(createdTask.Id).Request.GetAsync().Result
+        Dim t = graphClient.Planner.Tasks.Item(createdTask.Id).Details.Request.GetAsync().Result
+
+        Dim e1 = createdTask.GetEtag 'not
+        Dim e2 = t.GetEtag
+        'Await graphClient.Planner.
+        '    Tasks(createdTask.Id).
+        '    Details.
+        '    Request().
+        '    Header("If-Match", createdTask.GetEtag()).
+        '    UpdateAsync(d)
+
+        'description
+
+        Dim ra = New PlannerExternalReferences
+        ra.AddReference("https://nina.ppedv.de/ppcompany/adressen/ansprechpartneredit/37107/135534/ppedv", "Kunde")
+
+        d.References = ra
+        Await graphClient.Planner.
+           Tasks(createdTask.Id).
+           Details.
+           Request().
+             Header("If-Match", e2).
+        UpdateAsync(d)
+
+
+
+        'referencecount?
+
+
+        '  Await MainPage.GraphServiceClient.Me.Messages[msg.Id].Request().Select("IsRead").UpdateAsync(msg);
+
+
     End Function
 End Class
