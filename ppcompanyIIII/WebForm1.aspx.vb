@@ -3,6 +3,7 @@ Imports System.Security.Claims
 Imports System.Threading.Tasks
 Imports Microsoft.Graph
 Imports Microsoft.Owin.Security
+Imports Microsoft.Owin.Security.Cookies
 Imports Microsoft.Owin.Security.OpenIdConnect
 
 Public Class WebForm1
@@ -107,4 +108,18 @@ OpenIdConnectAuthenticationDefaults.AuthenticationType)
 
 
     End Function
+
+    Protected Sub Button2_Click(sender As Object, e As EventArgs)
+        If (Request.IsAuthenticated) Then
+
+            Dim signedInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value
+            Dim abstractContext = New System.Web.HttpContextWrapper(Context)
+            Dim tokenStore = New SessionTokenStore(signedInUserId, abstractContext)
+
+            tokenStore.Clear()
+
+            Request.GetOwinContext().Authentication.SignOut(
+                    CookieAuthenticationDefaults.AuthenticationType)
+        End If
+    End Sub
 End Class

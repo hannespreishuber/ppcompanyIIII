@@ -11,7 +11,7 @@
     <form id="form1" runat="server">
         <div>
             <asp:Button ID="Button1" runat="server" Text="Button" />
-            <asp:Button ID="Button2" runat="server" Text="Button" /><br />
+            <asp:Button ID="Button2" runat="server" Text="logout" OnClick="Button2_Click" /><br />
             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
             <br />
             teams<br />
