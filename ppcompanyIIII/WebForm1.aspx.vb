@@ -30,11 +30,11 @@ OpenIdConnectAuthenticationDefaults.AuthenticationType)
     End Sub
 
     Protected Function Button3_ClickAsync(sender As Object, e As EventArgs) Handles Button3.Click
-        'https://tasks.office.com/ppedv.de/de-DE/Home/Planner/#/plantaskboard?groupId=145db263-90e3-4cae-b401-0381b06ff2b5&planId=Frczk8wfmEGL8xL0X1dfOZYADb1w
-        'https://graph.microsoft.com/v1.0/planner/plans/Frczk8wfmEGL8xL0X1dfOZYADb1w/buckets
-        '/v1.0/planner/plans/Frczk8wfmEGL8xL0X1dfOZYADb1w/tasks 
-        '"BucketId""pu2t9gaDEk2DKo9N64nnDZYALL-B""
-        '"BucketId":"53hpjCFHU0qpyNoz9m-mCJYABETB"
+        'https://tasks.office.com/ppedv.de/de-DE/Home/Planner/#/plantaskboard?groupId=145db263-90e3-4cae-b401-0381b06ff2b5&planId=Frczk8wfxxxxxxOZYADb1w
+        'https://graph.microsoft.com/v1.0/planner/plans/Frczk8wxxxxX1dfOZYADb1w/buckets
+        '/v1.0/planner/plans/Frczk8xxxxX1dfOZYADb1w/tasks 
+        '"BucketId""pu2t9gaDExxxxnDZYALL-B""
+        '"BucketId":"53hpjCFHxxxxxxxmCJYABETB"
 
 
         RegisterAsyncTask(New PageAsyncTask(Function() myGraphAsync()))
@@ -66,9 +66,6 @@ OpenIdConnectAuthenticationDefaults.AuthenticationType)
         Dim myTask = New PlannerTask()
         myTask.PlanId = "Frczk8wfmEGL8xL0X1dfOZYADb1w" ' //a valid planner id
         myTask.BucketId = "pu2t9gaDEk2DKo9N64nnDZYALL-B"
-        myTask.StartDateTime = Date.Now
-        myTask.DueDateTime = Date.Now.AddDays(4) 'Seminarstart
-        myTask.Title = "Max Müller ASP.NET BerlinII"
 
         Dim d = New PlannerTaskDetails()
         d.Description = "Linhk dazu https://nina.ppedv.de/ppcompany/adressen/ansprechpartneredit/37107/135534/ppedv"
